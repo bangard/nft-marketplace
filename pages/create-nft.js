@@ -2,15 +2,22 @@ import { useState } from 'react'
 import { ethers } from 'ethers'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
-import Web3Modal from 'web3modal'
-
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
-
+import Web3Modal from 'web3modal'  
 import {
   marketplaceAddress
 } from '../config'
 
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
+
+
+const client = ipfsHttpClient({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+        Authorization: "Basic " + btoa(`${process.env.INFURA_ID}:${process.env.INFURA_SECRET}`),
+    },
+});
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
@@ -59,9 +66,9 @@ export default function CreateItem() {
     /* next, create the item */
     const price = ethers.utils.parseUnits(formInput.price, 'ether')
     let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-    let listingPrice = await contract.getListingPrice()
+    let listingPrice = await contract.getListingPrice() 
     listingPrice = listingPrice.toString()
-    let transaction = await contract.createToken(url, price, { value: listingPrice })
+    let transaction = await contract.createToken(url, price , { value: listingPrice })
     await transaction.wait()
    
     router.push('/')

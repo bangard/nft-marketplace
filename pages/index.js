@@ -16,7 +16,7 @@ export default function Home() {
   async function loadNFTs() {
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider(
-      'https://ropsten.infura.io/v3/ff7cb60064664f47b7d9e96c844990ad',
+      'https://goerli.infura.io/v3/ff7cb60064664f47b7d9e96c844990ad',
     )
     const contract = new ethers.Contract(
       marketplaceAddress,
@@ -31,13 +31,13 @@ export default function Home() {
      */
     const items = await Promise.all(
       data.map(async (i) => {
-        const tokenUri = await contract.tokenURI(i.tokenId)
-        console.log(i.tokenId, tokenUri)
+        const tokenUri = await contract.tokenURI(i.id)
+        console.log(i.id, tokenUri)
         const meta = await axios.get(tokenUri)
         let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
         let item = {
           price,
-          tokenId: i.tokenId.toNumber(),
+          id: i.id.toNumber(),
           seller: i.seller,
           owner: i.owner,
           image: meta.data.image,
@@ -64,7 +64,7 @@ export default function Home() {
 
     /* user will be prompted to pay the asking proces to complete the transaction */
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-    const transaction = await contract.createMarketSale(nft.tokenId, {
+    const transaction = await contract.createMarketSale(nft.id, {
       value: price,
     })
     await transaction.wait()

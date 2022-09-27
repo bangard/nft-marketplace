@@ -6,14 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "hardhat:compile": "hardhat compile",
+    "graph:codegen": "graph codegen",
+    "graph:build": "graph build"
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.6.0",
+    "alchemy-sdk": "^2.0.5-rc1",
     "axios": "^0.27.2",
     "chai": "^4.3.6",
+    "dotenv": "^16.0.2",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.5",
     "hardhat": "^2.9.5",
@@ -24,6 +29,8 @@
     "web3modal": "^1.9.7"
   },
   "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.30.2",
+    "@graphprotocol/graph-ts": "^0.27.0",
     "autoprefixer": "^10.4.7",
     "eslint": "8.15.0",
     "eslint-config-next": "12.1.6",

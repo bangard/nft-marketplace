@@ -1,0 +1,25 @@
+specVersion: 0.0.4
+description: NFTMarketplace for Ethereum
+repository: https://github.com/graphprotocol/example-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: marketplace
+    network: goerli
+    source:
+      address: '0xeb47e961F04dC44Be64e464EB314530F2e91F633'
+      abi: MarketPlace
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - MarketItem
+      abis:
+        - name: MarketPlace
+          file: ./artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json
+      eventHandlers:
+        - event: MarketItemCreated(indexed uint256,address,address,uint256,bool)
+          handler: handleMarketItemCreated
+      file: ./src/mapping.ts
